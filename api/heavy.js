@@ -1,9 +1,10 @@
 export default function handler(req, res) {
   const start = Date.now();
+
+  const iterations = 1e3;
   
-  // CPU intensive calculation - 10 million iterations
   let sum = 0;
-  for (let i = 0; i < 1e3; i++) {
+  for (let i = 0; i < iterations; i++) {
     sum += i;
   }
   
@@ -11,10 +12,10 @@ export default function handler(req, res) {
   
   res.status(200).json({ 
     sum, 
+    iterations,
     time: new Date().toISOString(),
     duration: `${duration}ms`,
     instanceId: process.env.VERCEL_REGION || "unknown",
     memory: process.memoryUsage(),
-    iterations: 10000000
   });
 }
