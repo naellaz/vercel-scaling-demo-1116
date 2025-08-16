@@ -1,7 +1,7 @@
 export default function handler(req, res) {
   const start = Date.now();
 
-  const iterations = 1e3;
+  const iterations = 1e7;
   
   let sum = 0;
   for (let i = 0; i < iterations; i++) {
