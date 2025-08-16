@@ -1,0 +1,13 @@
+{
+  "name": "vercel-scaling-demo",
+  "version": "1.0.0",
+  "description": "Demo scaling behavior in Vercel",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'"
+  },
+  "keywords": ["vercel", "scaling", "serverless"],
+  "author": "Your Name",
+  "license": "MIT"
+}
