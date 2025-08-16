@@ -3,7 +3,7 @@ export default function handler(req, res) {
   
   // CPU intensive calculation - 10 million iterations
   let sum = 0;
-  for (let i = 0; i < 1e7; i++) {
+  for (let i = 0; i < 1e3; i++) {
     sum += i;
   }
   
