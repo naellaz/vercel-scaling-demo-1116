@@ -3,7 +3,7 @@ export default function handler(req, res) {
     status: "healthy",
     instanceId: process.env.VERCEL_REGION || "unknown",
     region: process.env.VERCEL_REGION,
-    timestamp: new Date().toISOSring(),
+    timestamp: new Date().toISOString(),
     headers: req.headers,
     memory: process.memoryUsage(),
     uptime: process.uptime(),
