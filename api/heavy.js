@@ -1,21 +1,20 @@
 export default function handler(req, res) {
   const start = Date.now();
-  const iterations = parseInt(req.query.iterations) || 1e7;
   
-  // Simulasi CPU intensive task
+  // CPU intensive calculation - 10 million iterations
   let sum = 0;
-  for (let i = 0; i < iterations; i++) {
-    sum += Math.sqrt(i);
+  for (let i = 0; i < 1e7; i++) {
+    sum += i;
   }
   
   const duration = Date.now() - start;
   
-  res.status(200).json({
-    result: sum,
-    iterations: iterations,
+  res.status(200).json({ 
+    sum, 
+    time: new Date().toISOString(),
     duration: `${duration}ms`,
     instanceId: process.env.VERCEL_REGION || "unknown",
-    time: new Date().toISOString(),
-    memory: process.memoryUsage()
+    memory: process.memoryUsage(),
+    iterations: 10000000
   });
 }
