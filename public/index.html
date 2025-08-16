@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VERCEL SCALING DEMO 1116</title>
+    <style>
+      body {
+        font-family: Arial; 
+        margin: 40px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .endpoint {
+        background: #f5f5f5;
+        padding: 20px;
+        margin: 10 px 0;
+        border-radius: 5px;
+      }
+      .test-button {
+        background: #0070f3;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px
+        cursor: pointer;
+      }
+      .results {
+        background: #fff;
+        border: 1 px solid #ddd;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      pre {
+        background: #f8f9fa;
+        padding: 10px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+<body>
+  <div class="container">
+    <h1>VERCEL SCALING DEMO 1116</h1>
+
+    <div class="endpoint">
+      <h3>1. Test Basic Endpoint</h3>
+      <button class="test-button" onclick="testEndpoint('api/hello')">test Hello API</button>
+    </div>
+
+     <div class="endpoint">
+            <h3>2. Test Heavy CPU Load</h3>
+            <button class="test-button" onclick="testEndpoint('/api/heavy?iterations=5000000')">Test Heavy Load</button>
+        </div>
+        
+        <div class="endpoint">
+            <h3>3. Test Multiple Requests</h3>
+            <button class="test-button" onclick="loadTest()">Run Load Test (10 concurrent)</button>
+        </div>
+        
+        <div class="endpoint">
+            <h3>4. Instance Status</h3>
+            <button class="test-button" onclick="testEndpoint('/api/status')">Check Status</button>
+        </div>
+        
+        <div id="results" class="results" style="display: none;">
+            <h3>Results:</h3>
+            <pre id="output"></pre>
+        </div>
+    </div>
+
+    <script>
+        async function testEndpoint(url) {
+            const output = document.getElementById('output');
+            const results = document.getElementById('results');
+            
+            results.style.display = 'block';
+            output.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                output.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+            }
+        }
+        
+        async function loadTest() {
+            const output = document.getElementById('output');
+            const results = document.getElementById('results');
+            
+            results.style.display = 'block';
+            output.textContent = 'Running load test...';
+            
+            const startTime = Date.now();
+            const promises = [];
+            
+            // Create 10 concurrent requests
+            for (let i = 0; i < 10; i++) {
+                promises.push(
+                    fetch('/api/hello').then(r => r.json())
+                );
+            }
+            
+            try {
+                const responses = await Promise.all(promises);
+                const duration = Date.now() - startTime;
+                
+                const instanceIds = [...new Set(responses.map(r => r.instanceId))];
+                
+                output.textContent = `Load Test Results:
+Duration: ${duration}ms
+Requests: 10 concurrent
+Unique Instances: ${instanceIds.length}
+Instance IDs: ${instanceIds.join(', ')}
+
+Sample Response:
+${JSON.stringify(responses[0], null, 2)}`;
+            } catch (error) {
+                output.textContent = 'Load test failed: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
+                                                                                  
